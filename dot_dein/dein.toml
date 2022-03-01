@@ -1,0 +1,107 @@
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+hook_add = '''
+  let NERDTreeShowHidden=1
+    nnoremap <silent><C-n> :NERDTreeFind<CR>:vertical res 30<CR>
+'''
+
+[[plugins]]
+repo = 'vim-airline/vim-airline'
+[[plugins]]
+repo = 'vim-airline/vim-airline-themes'
+depends = 'vim-airline'
+hook_add = '''
+  let g:airline_theme='wombat'
+  let g:airline_powerline_fonts=1
+  let g:airline#extensions#tabline#enabled=1
+  let g:airline#extensions#tabline#buffer_idx_mode=1
+  let g:airline#extensions#tabline#fnamemod=':t'
+'''
+[[plugins]]
+repo = 'ryanoasis/vim-devicons'
+[[plugins]]
+repo = 'easymotion/vim-easymotion'
+hook_add = '''
+  nmap <Leader> <Plug>(easymotion-prefix)
+  let g:EasyMotion_do_mapping=0
+  nmap <Leader>w <Plug>(easymotion-jumptoanywhere)
+  nmap <Leader>jk <Plug>(easymotion-sol-bd-jk)
+  nmap <Leader>s <Plug>(easymotion-s2)
+'''
+[[plugins]]
+repo='simeji/winresizer'
+
+[[plugins]]
+repo='neoclide/coc.nvim'
+rev = 'release'
+build='''
+  git checkout release
+'''
+hook_add='''
+  inoremap <silent><expr> <TAB>
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \ coc#refresh()
+  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getlin('.')[col - 1] =~# '\s'
+  endfunction
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> gr <Plug>(coc-references)
+'''
+
+[[plugins]]
+repo='jdkanani/vim-material-theme'
+hook_add='''
+  colorscheme material-theme
+  highlight Normal ctermbg=NONE guibg=NONE
+  highlight NonText ctermbg=NONE guibg=NONE
+  highlight SpecialKey ctermbg=NONE guibg=NONE
+  highlight EndOfBuffer ctermbg=NONE guibg=NONE
+'''
+
+[[plugins]]
+repo='andweeb/presence.nvim'
+hook_add = '''
+  let g:presence_auto_update=1
+  let g:presence_editing_text = "Editing %s"
+  let g:presence_file_explorer_text = "File browsing"
+  let g:presence_neovim_image_text = "お前も\nVimmerにならないか？"
+'''
+
+[[plugins]]
+repo='twitvim/twitvim'
+hook_add='''
+  let twitvim_browser_cmd = "firefox"
+  let twitvim_force_ssl = 1
+  let twitvim_count = 40
+'''
+
+[[plugins]]
+repo='dart-lang/dart-vim-plugin'
+
+[[plugins]]
+repo='thosakwe/vim-flutter'
+
+[[plugins]]
+repo='Xuyuanp/nerdtree-git-plugin'
+hook_add='''
+  let g:NERDTreeGitStatusUseNerdFonts = 1
+  let g:NERDTreeGitStatusConcealBrackets = 1
+'''
+[[plugins]]
+repo='tpope/vim-fugitive'
+
+[[plugins]]
+repo='othree/html.vim'
+
+[[plugins]]
+repo='pangloss/vim-javascript'
+
+[[plugins]]
+repo='evanleck/vim-svelte'
+
