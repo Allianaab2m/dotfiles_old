@@ -1,32 +1,56 @@
 [[plugins]]
-repo = 'scrooloose/nerdtree'
-hook_add = '''
-  let NERDTreeShowHidden=1
-    nnoremap <silent><C-n> :NERDTreeFind<CR>:vertical res 30<CR>
+repo='vim-airline/vim-airline'
+hook_add='''
+  let g:airline_theme='gruvbox'
+  let g:airline#extensions#tabline#enabled=1
+  let g:airline_powerline_fonts=1
 '''
 
 [[plugins]]
-repo = 'vim-airline/vim-airline'
+repo='vim-airline/vim-airline-themes'
+
 [[plugins]]
-repo = 'vim-airline/vim-airline-themes'
-depends = 'vim-airline'
-hook_add = '''
-  let g:airline_theme='wombat'
-  let g:airline_powerline_fonts=1
-  let g:airline#extensions#tabline#enabled=1
-  let g:airline#extensions#tabline#buffer_idx_mode=1
-  let g:airline#extensions#tabline#fnamemod=':t'
+repo='morhetz/gruvbox'
+
+[[plugins]]
+repo='lambdalisue/fern.vim'
+hook_add='''
+  nnoremap <silent> <C-n> :<C-u>Fern . -drawer<CR>
+  nnoremap <silent> <C-N> :<C-u>Fern . -drawer -reveal=%<CR>
 '''
+
+[[plugins]]
+repo='lambdalisue/fern-git-status.vim'
+
+[[plugins]]
+repo='lambdalisue/nerdfont.vim'
+
+[[plugins]]
+repo='lambdalisue/fern-renderer-nerdfont.vim'
+hook_add='''
+  let g:fern#renderer = 'nerdfont'
+'''
+
+[[plugins]]
+repo='lambdalisue/glyph-palette.vim'
+hook_add='''
+  augroup my-glyph-palette
+    autocmd! *
+    autocmd FileType fern call glyph_palette#apply()
+    autocmd FileType nerdtree, startify call glyph_palette#apply()
+  augroup END
+'''
+
+[[plugins]]
+repo='airblade/vim-gitgutter'
+
 [[plugins]]
 repo = 'ryanoasis/vim-devicons'
+
 [[plugins]]
-repo = 'easymotion/vim-easymotion'
-hook_add = '''
-  nmap <Leader> <Plug>(easymotion-prefix)
-  let g:EasyMotion_do_mapping=0
-  nmap <Leader>w <Plug>(easymotion-jumptoanywhere)
-  nmap <Leader>jk <Plug>(easymotion-sol-bd-jk)
-  nmap <Leader>s <Plug>(easymotion-s2)
+repo='yuki-yano/fuzzy-motion.vim'
+hook_add='''
+  nmap <Leader>s :<C-u>FuzzyMotion<CR>
 '''
 [[plugins]]
 repo='simeji/winresizer'
@@ -52,6 +76,12 @@ hook_add='''
   nmap <silent> gy <Plug>(coc-type-definition)
   nmap <silent> gi <Plug>(coc-implementation)
   nmap <silent> gr <Plug>(coc-references)
+'''
+
+[[plugins]]
+repo='junegunn/fzf'
+build='''
+  ./install --all
 '''
 
 [[plugins]]
@@ -88,12 +118,6 @@ repo='dart-lang/dart-vim-plugin'
 repo='thosakwe/vim-flutter'
 
 [[plugins]]
-repo='Xuyuanp/nerdtree-git-plugin'
-hook_add='''
-  let g:NERDTreeGitStatusUseNerdFonts = 1
-  let g:NERDTreeGitStatusConcealBrackets = 1
-'''
-[[plugins]]
 repo='tpope/vim-fugitive'
 
 [[plugins]]
@@ -105,3 +129,12 @@ repo='pangloss/vim-javascript'
 [[plugins]]
 repo='evanleck/vim-svelte'
 
+[[plugins]]
+repo='nvim-treesitter/nvim-treesitter'
+merged=0
+
+[[plugins]]
+repo='vim-denops/denops.vim'
+
+[[plugins]]
+repo='lambdalisue/gina.vim'

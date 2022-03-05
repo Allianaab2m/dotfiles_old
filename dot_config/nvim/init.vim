@@ -1,4 +1,4 @@
-set shell=/usr/bin/fish
+set shell=/usr/bin/zsh
 
 " encoding
 set encoding=utf8
@@ -17,10 +17,12 @@ set belloff=all
 
 " line num
 set number
-
 set title
 
 set background=dark
+colorscheme gruvbox-material
+set noshowmode
+let g:airline_theme='gruvbox'
 
 filetype plugin indent on
 set expandtab
@@ -35,9 +37,26 @@ let mapleader = " "
 set backspace=indent,eol,start
 set ignorecase
 set hlsearch
+inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
+inoremap <silent> っｊ <ESC>
 
 vnoremap x "_x
 nnoremap x "_x
+nmap     m        [dev]
+xmap     m        [dev]
+
+inoremap <silent> <expr> <C-Space> coc#refresh()
+nnoremap <silent> K       :<C-u>call <SID>show_documentation()<CR>
+nmap     <silent> [dev]rn <Plug>(coc-rename)
+nmap     <silent> [dev]a  <Plug>(coc-codeaction-selected)iw
+
+function! s:show_documentation() abort
+  if index(['vim','help'], &filetype) >= 0
+    execute 'h ' . expand('<cword>')
+  elseif coc#rpc#ready()
+    call CocActionAsync('doHover')
+  endif
+endfunction
 
 nnoremap bd :bd<CR>
 
@@ -69,6 +88,25 @@ nnoremap sh <C-w>h
 nnoremap ss :<C-u>sp<CR><C-w>j
 nnoremap sv :<C-u>vs<CR><C-w>l
 
+nmap <Leader>f [fzf-p]
+xmap <Leader>f [fzf-p]
+
+nnoremap <silent> [fzf-p]p     :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
+nnoremap <silent> [fzf-p]gs    :<C-u>CocCommand fzf-preview.GitStatus<CR>
+nnoremap <silent> [fzf-p]ga    :<C-u>CocCommand fzf-preview.GitActions<CR>
+nnoremap <silent> [fzf-p]b     :<C-u>CocCommand fzf-preview.Buffers<CR>
+nnoremap <silent> [fzf-p]B     :<C-u>CocCommand fzf-preview.AllBuffers<CR>
+nnoremap <silent> [fzf-p]o     :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
+nnoremap <silent> [fzf-p]<C-o> :<C-u>CocCommand fzf-preview.Jumps<CR>
+nnoremap <silent> [fzf-p]g;    :<C-u>CocCommand fzf-preview.Changes<CR>
+nnoremap <silent> [fzf-p]/     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
+nnoremap <silent> [fzf-p]*     :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+nnoremap          [fzf-p]gr    :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
+xnoremap          [fzf-p]gr    "sy:CocCommand   fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+nnoremap <silent> [fzf-p]t     :<C-u>CocCommand fzf-preview.BufferTags<CR>
+nnoremap <silent> [fzf-p]q     :<C-u>CocCommand fzf-preview.QuickFix<CR>
+nnoremap <silent> [fzf-p]l     :<C-u>CocCommand fzf-preview.LocationList<CR>
+
 " plugmanager
 if &compatible
   set nocompatible
@@ -94,7 +132,6 @@ if dein#load_state(s:dein_dir)
 
   call dein#load_toml(s:toml)
   call dein#load_toml(s:toml_lazy, {'lazy': 1})
-
   call dein#end()
   call dein#save_state()
 endif
@@ -102,6 +139,7 @@ endif
 if dein#check_install()
   call dein#install()
 endif
+let g:dein#auto_recache = 1
 
 if (empty($TMUX))
 	if (has("nvim"))
@@ -111,5 +149,20 @@ if (empty($TMUX))
 		set termguicolors
 	endif
 endif
-
 syntax on
+autocmd vimenter * ++nested colorscheme gruvbox
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    disable = {
+      'lua',
+      'ruby',
+      'toml',
+      'c_sharp',
+      'vue',
+    }
+  }
+}
+EOF
