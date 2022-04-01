@@ -7,6 +7,7 @@ set fileencoding=utf-8
 set termencoding=utf8
 set t_Co=256
 set termguicolors
+set pumblend=10
 
 " swapfile
 set noswapfile
@@ -20,11 +21,12 @@ set number
 set title
 
 set background=dark
-colorscheme gruvbox-material
+highlight Normal ctermbg=NONE guibg=NONE
+highlight NonText ctermbg=NONE guibg=NONE
+highlight SpecialKey ctermbg=NONE guibg=NONE
+highlight EndOfBuffer ctermbg=NONE guibg=NONE
 set noshowmode
-let g:airline_theme='gruvbox'
 
-filetype plugin indent on
 set expandtab
 set tabstop=2
 set softtabstop=2
@@ -61,12 +63,6 @@ endfunction
 nnoremap bd :bd<CR>
 
 inoremap <silent> jj <ESC>
-inoremap {<Enter> {}<Left><CR><ESC><S-o>
-inoremap [<Enter> []<Left><CR><ESC><S-o>
-inoremap (<Enter> ()<Left><CR><ESC><S-o>
-
-inoremap ' ''<Left>
-inoremap " ""<Left>
 
 imap <C-p> <Up>
 imap <C-n> <Down>
@@ -77,9 +73,6 @@ imap <C-e> <End>
 imap <C-d> <Del>
 imap <C-h> <BS>
 imap <C-k> <C-r>=<SID>kill()<CR>
-
-nnoremap <silent> , :bprev<CR>
-nnoremap <silent> . :bnext<CR>
 
 nnoremap sj <C-w>j
 nnoremap sk <C-w>k
@@ -151,6 +144,8 @@ if (empty($TMUX))
 endif
 syntax on
 autocmd vimenter * ++nested colorscheme gruvbox
+
+colorscheme gruvbox-material
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
