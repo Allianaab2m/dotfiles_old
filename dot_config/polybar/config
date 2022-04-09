@@ -1,14 +1,14 @@
 [colors]
-background = #282828
-foreground = #ebdbb2
-red        = #fb4934
-green      = #b8bb26
-yellow     = #fabd2f
-blue       = #83a598
-purple     = #d3869b
-teal       = #8ec07c
-orange     = #fe8019
-gray       = #a89984
+background = #2E3440
+foreground = #D8DEE9
+red        = #BF616A
+green      = #A3BE8C
+yellow     = #EBCB8B
+blue       = #5E81AC
+purple     = #B48EAD
+teal       = #8FBCBB
+orange     = #D08770
+gray       = #4C566A
 
 [bar/mainscreen]
 ; Size
@@ -66,7 +66,7 @@ font-0 = PlemolJP35 Console NF:size=9;2
 
 ; Modlues
 modules-left   = i3
-modules-center = time date playerctl
+modules-center = time date playerctl bluetooth
 modules-right  = battery temperature pulseaudio
 
 ; Cursor actions
@@ -212,6 +212,17 @@ scroll-up = playerctl previous
 scroll-down = playerctl next
 
 label =  %output%
+
+[module/bluetooth]
+type = custom/script
+exec = echo "%{F#98c379}"
+exec-if = echo info | bluetoothctl | grep 'Device'
+interval = 10
+click-left = exec blueman-manager
+click-right = exec blueman-manager
+format-padding = 1
+format-background = ${colors.mono4}
+format-foreground = ${colors.mono2}
 
 [global/wm]
 margin-top    = 10

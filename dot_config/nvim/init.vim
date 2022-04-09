@@ -143,9 +143,25 @@ if (empty($TMUX))
 	endif
 endif
 syntax on
-autocmd vimenter * ++nested colorscheme gruvbox
+autocmd vimenter * ++nested colorscheme nightfox
 
-colorscheme gruvbox-material
+colorscheme nightfox
+let g:airline_theme='base16_nord'
+
+let s:startify_ascii_header = [
+ \ '                                        ▟▙            ',
+ \ '                                        ▝▘            ',
+ \ '██▃▅▇█▆▖  ▗▟████▙▖   ▄████▄   ██▄  ▄██  ██  ▗▟█▆▄▄▆█▙▖',
+ \ '██▛▔ ▝██  ██▄▄▄▄██  ██▛▔▔▜██  ▝██  ██▘  ██  ██▛▜██▛▜██',
+ \ '██    ██  ██▀▀▀▀▀▘  ██▖  ▗██   ▜█▙▟█▛   ██  ██  ██  ██',
+ \ '██    ██  ▜█▙▄▄▄▟▊  ▀██▙▟██▀   ▝████▘   ██  ██  ██  ██',
+ \ '▀▀    ▀▀   ▝▀▀▀▀▀     ▀▀▀▀       ▀▀     ▀▀  ▀▀  ▀▀  ▀▀',
+ \ '',
+ \]
+let g:startify_custom_header = map(s:startify_ascii_header +
+        \ startify#fortune#quote(), '"   ".v:val')
+
+inoremap ✠ <CR><Up>
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {

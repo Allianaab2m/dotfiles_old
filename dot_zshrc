@@ -1,5 +1,5 @@
 export PATH="/home/alliana/.deno/bin:$PATH"
-
+export PATH=/home/alliana/.nimble/bin:$PATH
 source ~/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
 source <(vr completions zsh)

@@ -1,10 +1,10 @@
 [[plugins]]
 repo='vim-airline/vim-airline'
 hook_add='''
-  let g:airline_right_sep=' '
-  let g:airline_left_sep=''
-  let g:airline#extensions#tabline#left_sep=''
-  let g:airline#extensions#tabline#right_sep=' '
+  let g:airline_left_sep=''
+  let g:airline_right_sep=''
+  let g:airline#extensions#tabline#right_sep=''
+  let g:airline#extensions#tabline#left_sep=''
   let g:airline#extensions#tabline#buffer_idx_mode=1
   let g:airline#extensions#tabline#buffer_idx_format = {
     	\ '0': '0 ',
@@ -33,9 +33,6 @@ hook_add='''
 
 [[plugins]]
 repo='vim-airline/vim-airline-themes'
-
-[[plugins]]
-repo='morhetz/gruvbox'
 
 [[plugins]]
 repo='lambdalisue/fern.vim'
@@ -172,3 +169,12 @@ repo='higashi000/dps-kakkonan'
 
 [[plugins]]
 repo='maguroguma/vim-oj-helper'
+
+[[plugins]]
+repo='alaviss/nim.nvim'
+
+[[plugins]]
+repo='mhinz/vim-startify'
+
+[[plugins]]
+repo='EdenEast/nightfox.nvim'
