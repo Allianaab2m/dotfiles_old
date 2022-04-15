@@ -21,10 +21,6 @@ require'packer'.startup(function ()
   -- LSP --
   use {
     'neovim/nvim-lspconfig',
-    config = function()
-      require'lspconfig'.tsserver.setup{}
-      require'lspconfig'.sumneko_lua.setup{}
-    end,
   }
 
   use {
@@ -190,13 +186,6 @@ capabilities = require('cmp_nvim_lsp').update_capabilities
 
 local lspconfig = require('lspconfig')
 
-local servers = { 'tsserver' }
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    capabilities = capabilities,
-  }
-end
-
 -- No Virtual Text Error --
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
@@ -258,7 +247,6 @@ require('nvim-treesitter.configs').setup {
   highlight = {
     enable = true,
     disable = {
-      'lua',
       'ruby',
       'toml',
       'c_sharp',
@@ -269,3 +257,5 @@ require('nvim-treesitter.configs').setup {
     enable = true,
   }
 }
+
+
