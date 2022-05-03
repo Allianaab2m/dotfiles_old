@@ -4,6 +4,11 @@ require 'set'
 vim.cmd [[autocmd BufWritePost plugins.lua PackerCompile]]
 vim.cmd [[autocmd BufWritePost key.lua PackerCompile]]
 vim.cmd [[autocmd BufWritePost set.lua PackerCompile]]
+vim.cmd('augroup fcitx')
+vim.cmd('autocmd!')
+vim.cmd("autocmd InsertLeave * :call system('fcitx5-remote -c')")
+vim.cmd("autocmd CmdlineLeave * :call system('fcitx5-remote -c')")
+vim.cmd("augroup END")
 
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
@@ -28,10 +33,27 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 end
 
+local nvim_lsp = require('lspconfig')
 local lsp_installer = require("nvim-lsp-installer")
+
+local node_root_dir = nvim_lsp.util.root_pattern("package.json", "node_modules")
+local buf_name = vim.api.nvim_buf_get_name(0)
+local current_buf = vim.api.nvim_get_current_buf()
+local is_node_repo = node_root_dir(buf_name, current_buf) ~= nil
+
 lsp_installer.on_server_ready(function(server)
   local opts = {}
   opts.on_attach = on_attach
-
+  if server.name == "tsserver" or server.name == "eslint" then
+    opts.autostart = is_node_repo
+  elseif server.name == "denols" then
+    opts.autostart = not(is_node_repo)
+    opts.init_options = { lint=true, unstable=true }
+  end
   server:setup(opts)
+  vim.cmd [[ do User LspAttachBuffers ]]
 end)
+
+nvim_lsp.denols.setup{
+  root_dir = nvim_lsp.util.root_pattern("deno.json")
+}

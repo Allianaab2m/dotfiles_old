@@ -12,6 +12,32 @@ vim.api.nvim_set_keymap(
   "<Esc>", { noremap = true, silent = true }
 )
 
+-- always gj, gk --
+
+vim.keymap.set(
+  "n",
+  "j",
+  "gj", { noremap = true }
+)
+
+vim.keymap.set(
+  "n",
+  "k",
+  "gk", { noremap = true }
+)
+
+vim.keymap.set(
+  "n",
+  "gj",
+  "j", { noremap = true }
+)
+
+vim.keymap.set(
+  "n",
+  "gk",
+  "k", { noremap = true }
+)
+
 -- Emacs like Keybind --
 vim.keymap.set(
   "i",
@@ -141,6 +167,64 @@ vim.keymap.set(
   "n",
   "<Leader>fgh",
   "<cmd>Telescope gh issues<cr>"
+)
+
+-- Easy Motion --
+vim.api.nvim_set_keymap(
+  "n",
+  "f",
+  "<cmd>lua require'hop'.hint_patterns({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = false })<cr>",
+  { noremap = true, silent = true }
+)
+
+vim.api.nvim_set_keymap(
+  "n",
+  "F",
+  "<cmd>lua require'hop'.hint_patterns({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = false })<cr>",
+  { noremap = true, silent = true }
+)
+
+-- Resizing Panes
+vim.keymap.set(
+  "n",
+  "<Left>",
+  ":vertical resize +1<CR>",
+  { noremap = true, silent = true }
+)
+
+vim.keymap.set(
+  "n",
+  "<Right>",
+  ":vertical resize -1<CR>",
+  { noremap = true, silent = true }
+)
+
+vim.keymap.set(
+  "n",
+  "<Up>",
+  ":resize +1<CR>",
+  { noremap = true, silent = true }
+)
+
+vim.keymap.set(
+  "n",
+  "<Down>",
+  ":resize -1<CR>",
+  { noremap = true, silent = true }
+)
+
+-- Terminal --
+vim.keymap.set(
+  "t",
+  "jj",
+  "<C-\\><C-n>",
+  { noremap = true }
+)
+
+vim.api.nvim_create_user_command(
+  "T",
+  "split | wincmd j | resize 20 | terminal <args>",
+  { nargs = '*' }
 )
 
 -- Trouble & Telescope --

@@ -1,7 +1,7 @@
 local opt = vim.opt
 
 -- shell --
-opt.shell = 'usr/bin/zsh'
+opt.shell = '/usr/bin/zsh'
 
 -- num --
 opt.number = true
