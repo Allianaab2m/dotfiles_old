@@ -2,8 +2,11 @@ export PATH="/home/alliana/.deno/bin:$PATH"
 export PATH=/home/alliana/.nimble/bin:$PATH
 export PATH=/home/alliana/lua-language-server/bin:$PATH
 source ~/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+export PATH=/home/alliana/.cargo/bin:$PATH
 
 source <(vr completions zsh)
+
+alias nv='nvim'
 
 eval "$(starship init zsh)"
 
