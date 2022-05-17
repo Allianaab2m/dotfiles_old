@@ -30,7 +30,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
   buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
   buf_set_keymap("n", "<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
-  buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts) 
 end
 
 local nvim_lsp = require('lspconfig')
@@ -44,12 +44,6 @@ local is_node_repo = node_root_dir(buf_name, current_buf) ~= nil
 lsp_installer.on_server_ready(function(server)
   local opts = {}
   opts.on_attach = on_attach
-  if server.name == "tsserver" or server.name == "eslint" then
-    opts.autostart = is_node_repo
-  elseif server.name == "denols" then
-    opts.autostart = not(is_node_repo)
-    opts.init_options = { lint=true, unstable=true }
-  end
   server:setup(opts)
   vim.cmd [[ do User LspAttachBuffers ]]
 end)

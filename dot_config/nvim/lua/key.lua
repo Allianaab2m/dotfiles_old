@@ -12,6 +12,12 @@ vim.api.nvim_set_keymap(
   "<Esc>", { noremap = true, silent = true }
 )
 
+vim.keymap.set(
+  "i",
+  "っｊ",
+  "<Esc>", { noremap = true, silent = true }
+)
+
 -- always gj, gk --
 
 vim.keymap.set(

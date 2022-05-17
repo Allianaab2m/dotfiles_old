@@ -41,6 +41,10 @@ require'packer'.startup(function ()
   }
 
   use {
+    'ray-x/lsp_signature.nvim'
+  }
+
+  use {
     'folke/lsp-colors.nvim'
   }
 
@@ -59,7 +63,7 @@ require'packer'.startup(function ()
 
   -- Completion --
   use {
-    'hrsh7th/nvim-cmp',
+    'hrsh7th/nvim-cmp'
   }
 
   use {
@@ -146,9 +150,7 @@ require'packer'.startup(function ()
   }
 
   use {
-    'nvim-telescope/telescope-frecency.nvim'
-  }
-
+    'nvim-telescope/telescope-frecency.nvim' }
   use {
     'nvim-telescope/telescope-packer.nvim'
   }
@@ -211,13 +213,28 @@ require'packer'.startup(function ()
     'twitvim/twitvim'
   }
 
-  -- Transparent --
   use {
     'xiyaowong/nvim-transparent'
   }
+
+  -- Fcitx --
+  use {
+    'h-hg/fcitx.nvim'
+  }
+
   -- fun --
   use {
     'Allianaab2m/diceroll.vim'
+  }
+
+  -- Highlight --
+  use {
+    'wadackel/nvim-syntax-info'
+  }
+
+  -- Docker --
+  use {
+    'jamestthompson3/nvim-remote-containers'
   }
 
 end)
@@ -291,7 +308,12 @@ cmp.setup {
   },
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'luasnip' }
+    { name = 'luasnip' },
+    { max_item_count = 7 }
+  },
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered()
   }
 }
 
@@ -515,6 +537,7 @@ whichkey.register(mappings, opts)
 
 -- Transparent --
 require("transparent").setup({
-  enable = true
+  enable = false
 })
 
+require("lsp_signature").setup()
