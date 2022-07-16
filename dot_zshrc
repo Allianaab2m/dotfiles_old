@@ -1,16 +1,29 @@
+fpath+=~/.zfunc
 export PATH="/home/alliana/.deno/bin:$PATH"
 export PATH=/home/alliana/.nimble/bin:$PATH
 export PATH=/home/alliana/lua-language-server/bin:$PATH
 source ~/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 export PATH=/home/alliana/.cargo/bin:$PATH
 export PATH="$PATH:/home/alliana/flutter/bin"
+export PATH="$PATH:/home/alliana/go/bin"
 export GPG_TTY=$(tty)
 export CHROME_EXECUTABLE=/usr/bin/google-chrome-stable
+export PATH="$HOME/.poetry/bin:$PATH"
 
 source <(vr completions zsh)
 
 alias nv='nvim'
+alias ls='lsd'
+alias lv='lvim'
 alias tree="tree -I node_modules -L 3"
 
 eval "$(starship init zsh)"
 
+
+
+# bun completions
+[ -s "/home/alliana/.bun/_bun" ] && source "/home/alliana/.bun/_bun"
+
+# bun
+export BUN_INSTALL="/home/alliana/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

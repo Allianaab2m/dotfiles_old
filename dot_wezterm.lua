@@ -5,6 +5,10 @@ local SOLID_LEFT_ARROW = ''
 -- The filled in variant of the > symbol
 local SOLID_RIGHT_ARROW = ''
 
+wezterm.on('format-window-title', function (tab, pane, tabs, panes, config)
+    return tab.active_pane.title
+end)
+
 return {
   font = wezterm.font("PlemolJP35 Console NF"),
   font_size = 10.0,
