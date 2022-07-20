@@ -72,12 +72,29 @@ local function lsp_keymaps(bufnr)
 end
 
 M.on_attach = function(client, bufnr)
+  local active_clients = vim.lsp.get_active_clients()
   if client.name == "tsserver" then
     client.resolved_capabilities.document_formatting = false
   end
 
   if client.name == "sumneko_lua" then
     client.resolved_capabilities.document_formatting = false
+  end
+
+  if client.name == "denols" then
+    for _, client_ in pairs(active_clients) do
+      if client_.name == "tsserver" then
+        client_.stop()
+      end
+    end
+  end
+
+  if client.name == "tsserver" then
+    for _, client_ in pairs(active_clients) do
+      if client_.name == "denols" then
+        client.stop()
+      end
+    end
   end
 
   lsp_keymaps(bufnr)

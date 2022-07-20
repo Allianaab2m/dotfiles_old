@@ -3,11 +3,17 @@ if not status_ok then
   return
 end
 
+local conf_status_ok, lspconf = pcall(require, "lspconfig")
+if not conf_status_ok then
+  return
+end
+
 local servers = {
   "sumneko_lua",
   "cssls",
   "html",
   "tsserver",
+  "denols",
   "pyright",
   "bashls",
   "jsonls",
@@ -37,6 +43,27 @@ for _, server in pairs(servers) do
   if server == "pyright" then
     local pyright_opts = require "user.lsp.settings.pyright"
     opts = vim.tbl_deep_extend("force", pyright_opts, opts)
+  end
+  
+  if server == "denols" then
+    opts.root_dir = lspconf.util.root_pattern("deno.json", "deps.ts", "deno.jsonc", "import_map.json")
+    opts.init_options = {
+      lint = true,
+      unstable = true,
+      suggest = {
+        imports = {
+          hosts = {
+            ["https://deno.land"] = true,
+            ["https://cdn.nest.land"] = true,
+            ["https://crux.land"] = true
+          }
+        }
+      }
+    }
+  end
+
+  if server == "tsserver" then
+    opts.root_dir = lspconf.util.root_pattern("node_modules", "package.json")
   end
 
   lspconfig[server].setup(opts)
