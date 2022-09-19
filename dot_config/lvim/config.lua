@@ -11,13 +11,9 @@ an executable
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
-lvim.colorscheme = "duskfox"
--- vim.g.tokyonight_style = "night"
--- vim.g.tokyonight_italic_comments = false
--- vim.g.tokyonight_lualine_bold = true
--- vim.g.tokyonight_hide_inactive_statusline = true
-vim.opt.laststatus = 3
-vim.opt.cmdheight = 0
+lvim.transparent_window = false
+vim.g.catppuccin_flavour = "mocha"
+lvim.colorscheme = "catppuccin"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -25,8 +21,10 @@ vim.opt.cmdheight = 0
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-lvim.keys.insert_mode["っｊ"] = { '<ESC>', { noremap = true } }
-
+lvim.keys.normal_mode["L"] = ":bnext<cr>"
+lvim.keys.normal_mode["H"] = ":bprevious<cr>"
+-- lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
+-- lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
 -- unmap a default keymapping
 -- vim.keymap.del("n", "<C-Up>")
 -- override a default keymapping
@@ -52,15 +50,15 @@ lvim.keys.insert_mode["っｊ"] = { '<ESC>', { noremap = true } }
 
 -- Use which-key to add extra bindings with the leader-key prefix
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
-lvim.builtin.which_key.mappings["t"] = {
-  name = "+Trouble",
-  r = { "<cmd>Trouble lsp_references<cr>", "References" },
-  f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
-  d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
-  q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
-  l = { "<cmd>Trouble loclist<cr>", "LocationList" },
-  w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
-}
+-- lvim.builtin.which_key.mappings["t"] = {
+--   name = "+Trouble",
+--   r = { "<cmd>Trouble lsp_references<cr>", "References" },
+--   f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
+--   d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
+--   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
+--   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
+--   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
+-- }
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
@@ -68,7 +66,6 @@ lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
-lvim.builtin.terminal.direction = "horizontal"
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 
@@ -93,54 +90,31 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- generic LSP settings
 
+-- -- make sure server will always be installed even if the server is in skipped_servers list
+-- lvim.lsp.installer.setup.ensure_installed = {
+--     "sumeko_lua",
+--     "jsonls",
+-- }
+-- -- change UI setting of `LspInstallInfo`
+-- -- see <https://github.com/williamboman/nvim-lsp-installer#default-configuration>
+-- lvim.lsp.installer.setup.ui.check_outdated_servers_on_open = false
+-- lvim.lsp.installer.setup.ui.border = "rounded"
+-- lvim.lsp.installer.setup.ui.keymaps = {
+--     uninstall_server = "d",
+--     toggle_server_expand = "o",
+-- }
+
 -- ---@usage disable automatic installation of servers
-lvim.lsp.automatic_servers_installation = false
+-- lvim.lsp.installer.setup.automatic_installation = false
 
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
 -- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
-local lspconfig = require('lspconfig')
-vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers,
-  { "emmet_ls", "pyright", "pylsp", "denols", "tsserver" })
-local emmetopts = {
-  filetypes = { 'html', 'typescriptreact', 'css', 'sass', 'scss' }
-} -- check the lspconfig documentation for a list of all possible options
-local pylspopts = {
-  settings = {
-    pylsp = {
-      plugins = {
-        pylsp_mypy = { enabled = true },
-        pylsp_black = { enabled = true }
-      }
-    }
-  }
-}
-
-lspconfig["denols"].setup({
-  root_dir = lspconfig.util.root_pattern("deno.json", "deps.ts"),
-  init_options = {
-    lint = true,
-    unstable = true,
-    suggest = {
-      imports = {
-        hosts = {
-          ["https://deno.land"] = true,
-          ["https://cdn.nest.land"] = true,
-          ["https://crux.land"] = true
-        }
-      }
-    }
-  }
-})
-
-lspconfig["tsserver"].setup({
-  root_dir = lspconfig.util.root_pattern("package.json")
-})
-
-require("lvim.lsp.manager").setup("emmet_ls", emmetopts)
-require("lvim.lsp.manager").setup("pylsp", pylspopts)
+-- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
+-- local opts = {} -- check the lspconfig documentation for a list of all possible options
+-- require("lvim.lsp.manager").setup("pyright", opts)
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
--- ---`:LvimInfo` lists which server(s) are skiipped for the current filetype
+-- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
 -- vim.tbl_map(function(server)
 --   return server ~= "emmet_ls"
 -- end, lvim.lsp.automatic_configuration.skipped_servers)
@@ -154,71 +128,96 @@ require("lvim.lsp.manager").setup("pylsp", pylspopts)
 --   --Enable completion triggered by <c-x><c-o>
 --   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 -- end
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-  update_in_insert = true
-}
-)
 
--- set a formatter, this will override the language server formatting capabilities (if it exists)
-local formatters = require "lvim.lsp.null-ls.formatters"
-formatters.setup {
-  { command = "black", filetypes = { "python" } },
-  {
-    -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
-    command = "prettier",
-    ---@usage arguments to pass to the formatter
-    -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
-    extra_args = { "--print-with", "100" },
-    ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-    filetypes = { "typescript", "typescriptreact" },
-  },
-}
+-- -- set a formatter, this will override the language server formatting capabilities (if it exists)
+-- local formatters = require "lvim.lsp.null-ls.formatters"
+-- formatters.setup {
+--   { command = "black", filetypes = { "python" } },
+--   { command = "isort", filetypes = { "python" } },
+--   {
+--     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+--     command = "prettier",
+--     ---@usage arguments to pass to the formatter
+--     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+--     extra_args = { "--print-with", "100" },
+--     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+--     filetypes = { "typescript", "typescriptreact" },
+--   },
+-- }
 
--- set additional linters
-local linters = require "lvim.lsp.null-ls.linters"
-linters.setup {
-  { command = "flake8", filetypes = { "python" } },
-  {
-    -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
-    command = "shellcheck",
-    ---@usage arguments to pass to the formatter
-    -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
-    extra_args = { "--severity", "warning" },
-  },
-  {
-    command = "codespell",
-    ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
-    filetypes = { "javascript", "python" },
-  },
-}
+-- -- set additional linters
+-- local linters = require "lvim.lsp.null-ls.linters"
+-- linters.setup {
+--   { command = "flake8", filetypes = { "python" } },
+--   {
+--     -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
+--     command = "shellcheck",
+--     ---@usage arguments to pass to the formatter
+--     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+--     extra_args = { "--severity", "warning" },
+--   },
+--   {
+--     command = "codespell",
+--     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+--     filetypes = { "javascript", "python" },
+--   },
+-- }
 
 -- Additional Plugins
 lvim.plugins = {
-  {
-    "EdenEast/nightfox.nvim"
-  },
   {
     "folke/trouble.nvim",
     cmd = "TroubleToggle",
   },
   {
-    "ray-x/lsp_signature.nvim",
-    config = function() require "lsp_signature".on_attach() end,
-    event = "BufRead"
+    "simrat39/rust-tools.nvim",
+    config = function()
+      require("rust-tools").setup({
+        tools = {
+          autoSetHints = true,
+          hover_with_actions = true,
+          runnables = {
+            use_telescope = true
+          }
+        },
+        server = {
+          on_init = require("lvim.lsp").common_on_init,
+          on_attach = function(client, bufnr)
+            require("lvim.lsp").common_on_attach(client, bufnr)
+          end
+        }
+      })
+    end,
+    ft = { "rust", "rs" }
   },
   {
-    "deton/jasegment.vim"
+    "lukas-reineke/indent-blankline.nvim",
+    config = function()
+      require("indent_blankline").setup()
+    end
   },
   {
-    "vim-denops/denops.vim"
+    "stevearc/aerial.nvim",
+    config = function()
+      require('aerial').setup()
+    end
   },
   {
-    "kat0h/bufpreview.vim"
+    "VonHeikemen/fine-cmdline.nvim",
+    requires = {
+      { "MunifTanjim/nui.nvim" }
+    },
+    config = function()
+      vim.api.nvim_set_keymap("n", ":", "<cmd>FineCmdline<CR>", { noremap = true, silent = true })
+    end
   },
-  -- {
-  --   "skanehira/denops-twihi.vim"
-  -- }
+  {
+    "catppuccin/nvim", as = "catppuccin",
+    config = function()
+      vim.g.catppuccin_flavour = "mocha"
+      require("catppuccin").setup()
+    end
+  }
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
@@ -227,26 +226,53 @@ lvim.plugins = {
 --   -- enable wrap mode for json files only
 --   command = "setlocal wrap",
 -- })
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "zsh",
+--   callback = function()
+--     -- let treesitter use bash highlight for zsh files as well
+--     require("nvim-treesitter.highlight").attach(0, "bash")
+--   end,
+-- })
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "zsh",
-  callback = function()
-    -- let treesitter use bash highlight for zsh files as well
-    require("nvim-treesitter.highlight").attach(0, "bash")
-  end,
-})
+vim.api.nvim_create_user_command('Ide', function(_opts)
+  vim.cmd([[AerialOpen!]])
+  vim.cmd('ToggleTerm size=10 dir=' .. vim.fn.getcwd() .. ' direction=horizontal')
+  vim.cmd([[NvimTreeOpen]])
+  vim.cmd([[stopinsert]])
+  vim.cmd([[wincmd l]])
+end, { nargs = 0 })
 
-vim.api.nvim_create_autocmd('InsertLeave', {
-  pattern = "*",
-  command = "call system('fcitx5-remote -o')"
-})
+-- Statusline Settings
+lvim.builtin.lualine.style = "default"
+local components = require("lvim.core.lualine.components")
+lvim.builtin.lualine.options = {
+  component_separators = '|',
+  section_separators = { left = '', right = '' },
+}
+lvim.builtin.lualine.sections.lualine_a = {
+  { "mode", separator = { left = '' }, right_padding = 2 }
+}
+lvim.builtin.lualine.sections.lualine_b = {
+  components.filename,
+  components.branch
+}
+lvim.builtin.lualine.sections.lualine_c = {
+  components.diff, components.diagnostics
+}
+lvim.builtin.lualine.sections.lualine_x = {
+  components.lsp
+}
+lvim.builtin.lualine.sections.lualine_y = {
+  components.filetype,
+}
+lvim.builtin.lualine.sections.lualine_z = {
+  { 'location', separator = { right = '' } }
+}
 
-vim.api.nvim_create_autocmd('CmdLineLeave', {
-  pattern = "*",
-  command = "call system('fcitx5-remote -o')"
-})
+lvim.builtin.lualine.inactive_sections = {
+  lualine_a = { 'filename' },
+  lualine_x = { 'encoding', 'fileformat', 'filetype' },
+}
 
-vim.api.nvim_create_autocmd("BufRead", {
-  pattern = "*",
-  command = "lua vim.opt.titlestring=[[%F - LunarVim]]"
-})
+vim.opt.laststatus = 3
+vim.opt.cmdheight = 0
