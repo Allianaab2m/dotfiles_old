@@ -1,4 +1,6 @@
 fpath+=~/.zfunc
+setopt AUTO_CD
+
 export PATH="/home/alliana/.deno/bin:$PATH"
 export PATH=/home/alliana/.nimble/bin:$PATH
 export PATH=/home/alliana/lua-language-server/bin:$PATH
@@ -9,16 +11,40 @@ export PATH="$PATH:/home/alliana/go/bin"
 export GPG_TTY=$(tty)
 export CHROME_EXECUTABLE=/usr/bin/google-chrome-stable
 export PATH="$HOME/.poetry/bin:$PATH"
+export PATH="$HOME/.yarn/bin:$PATH"
+export TERM=wezterm
 
 source <(vr completions zsh)
 
+# Vim alias
 alias nv='nvim'
-alias ls='lsd'
 alias lv='lvim'
+alias nvc='nvim ~/.config/nvim/lua/user/plugins.lua'
+
+# ls improvement
+alias ls='lsd'
+
 alias tree="tree -I node_modules -L 3"
 
-eval "$(starship init zsh)"
+# ghq
+alias ghqcd="cd $(ghq root)/github.com/Allianaab2m"
+reponew() {
+  echo "Repository name: " && read reponame;
+  ghq create ${reponame};
+  cd $(ghq root)/github.com/Allianaab2m/${reponame};
+  echo "Private? (y/N): ";
+  if read -q; then
+    gh repo create $1 --private --source=. --remote=upstream # private yes
+  else
+    gh repo create $1 --public --source=. --remote=upstream
+  fi
+}
 
+# Chezmoi dotfiles manager
+alias czls="alias | grep chezmoi"
+alias czea="chezmoi edit --apply"
+alias cze="chezmoi edit"
+alias cza="chezmoi apply"
 
 
 # bun completions
@@ -27,3 +53,6 @@ eval "$(starship init zsh)"
 # bun
 export BUN_INSTALL="/home/alliana/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Starship setup
+eval "$(starship init zsh)"
